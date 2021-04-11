@@ -1,0 +1,63 @@
+---------------------------------------- one to many
+****************************************************
+from one_to_many.models import Author, Book
+
+Author.objects.all()
+
+Book.objects.all()
+
+new_author = Author.objects.create(name = "Fyodor Dostoevksy")
+
+new_author.name
+
+new_book = Book.objects.create(title = "Crime and Punishment", author = new_author)
+
+new_book.title
+new_book.author
+new_book.author.name
+
+another_book = Book.objects.create(title = "The Brothers Karamazov", author = new_author)
+another_book.author.name
+
+new_author.books.all()
+
+for book in new_author.books.all()
+    print(book.title)
+
+---------------------------------------------many to many
+*********************************************************
+
+this_book = Book.objects.get(id=4)	# recupera una instancia de un libro 
+this_publisher = Publisher.objects.get(id=2)	# recuperar una instancia de un editor
+    
+# 2 opciones que hacen lo mismo:
+this_publisher.books.add(this_book)		# añadir el libro a la lista de libros de esta editorial
+# O
+this_book.publishers.add(this_publisher)	# agregar el editor a la lista de editores de este libro
+
+this_book = Book.objects.get(id=4)	# recupera una instancia de un libro
+this_publisher = Publisher.objects.get(id=2)	# recuperar una instancia de un editor
+    
+# 2 opciones que hacen lo mismo
+this_publisher.books.remove(this_book)		# eliminar el libro de la lista de libros de este editor
+# O
+this_book.publishers.remove(this_publisher)	# eliminar al editor de la lista de editores de este libro
+
+this_publisher.books.all()	# obtiene todos los libros que publica esta editorial
+this_book.publishers.all()	# obtiene todos los editores de este libro
+
+********************
+
+from books_app.models import Book, Publisher
+grapes_of_wrath = Book.objects.create(title = "East of Eden")
+east_of_eden = Book.objects.create(title = "East of Eden")
+penguin = Publisher.objects.create(name = "Penguin")
+harper_collins = Publisher.objects.create(name = "Harper Collins")
+Book.objects.all()
+
+Publisher.objects.all()
+
+penguin.books.add(east_of_eden)
+penguin.books.all()
+
+grapes_of_wrath.publishers.all()
